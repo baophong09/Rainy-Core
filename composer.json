@@ -13,7 +13,7 @@
     },
     "autoload": {
         "files": [
-            "src/RainyFramework/Define.php"
+            "src/Rainy/Define.php"
         ],
         "psr-4": {
             "Rainy\\": "src/Rainy/"
