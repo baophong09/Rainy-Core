@@ -1,5 +1,5 @@
 {
-    "name": "baophong09/rainyfw",
+    "name": "baophong09/rainy",
     "description": "A Light Weight PHP Framework",
     "license": "MIT",
     "authors": [
@@ -16,7 +16,7 @@
             "src/RainyFramework/Define.php"
         ],
         "psr-4": {
-            "Rainy\\": "src/RainyFramework/"
+            "Rainy\\": "src/Rainy/"
         }
     },
     "extra": {
