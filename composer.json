@@ -1,0 +1,22 @@
+{
+    "name": "baophong09/rainyfw",
+    "description": "A Light Weight PHP Framework",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Dinh Phong",
+            "email": "dinhphong.developer@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.0"
+    },
+    "autoload": {
+        "files": [
+            "src/RainyFramework/Define.php"
+        ],
+        "psr-4": {
+            "Rainy\\": "src/RainyFramework/"
+        }
+    }
+}
