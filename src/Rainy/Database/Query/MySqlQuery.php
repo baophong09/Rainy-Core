@@ -28,6 +28,13 @@ class MySqlQuery extends Query
 
     protected $isInsert;
 
+    public function table($table)
+    {
+        $this->table = $table;
+
+        return $this;
+    }
+
     public function select($columns = ['*'], $alias = '')
     {
         if(is_array($columns)) {

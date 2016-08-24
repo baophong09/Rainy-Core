@@ -14,9 +14,8 @@ class Query
 
     protected $table;
 
-    public function __construct(PDO $pdo, $table) {
+    public function __construct(PDO $pdo) {
         $this->pdo = $pdo;
-        $this->table = $table;
     }
 
     public function execute($query) {
@@ -28,18 +27,24 @@ class Query
 
     public function get() {
         if($this->isSelect) {
-            $this->selectBuild();
+            $this->selectBuilder();
 
-            $this->execute($query);
+            $this->execute($this->query);
         }
 
-        return $this->stmt->fetchAll();
+        return $this->fetch();
     }
 
     public function query($query) {
-        $this->query = '';
-
         $this->execute($query);
+
+        $data = $this->fetch();
+
+        return $data;
+    }
+
+    public function fetch() {
+        $this->stmt->setFetchMode(PDO::FETCH_ASSOC);
 
         return $this->stmt->fetchAll();
     }
