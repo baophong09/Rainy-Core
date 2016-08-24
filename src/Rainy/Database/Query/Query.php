@@ -14,8 +14,19 @@ class Query
 
     protected $table;
 
+<<<<<<< HEAD
     public function __construct(PDO $pdo) {
         $this->pdo = $pdo;
+=======
+    public function __construct(PDO $pdo, $table, $query) {
+        $this->pdo = $pdo;
+        $this->table = $table;
+        $this->query = $query;
+
+        if($this->query) {
+            $this->query($this->query);
+        }
+>>>>>>> d216d895ce75b35839e3b938b97e2c1832f9804b
     }
 
     public function execute($query) {
