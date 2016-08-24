@@ -21,7 +21,10 @@ class Query
 
     public function execute($query) {
         $this->stmt = $this->pdo->prepare($query);
-        $this->stmt->execute();
+
+        //\Rainy\Helper::debug($this->stmt);
+
+        $this->stmt->execute($this->whereParam);
 
         return $this;
     }
@@ -29,7 +32,6 @@ class Query
     public function get() {
         if($this->isSelect) {
             $this->selectBuilder();
-
             $this->execute($this->query);
         }
 

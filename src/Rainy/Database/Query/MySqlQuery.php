@@ -28,6 +28,8 @@ class MySqlQuery extends Query
 
     protected $isInsert;
 
+    protected $whereParam;
+
     public function table($table)
     {
         $this->table = $table;
@@ -82,12 +84,21 @@ class MySqlQuery extends Query
 
     public function whereByParams($column, $operator, $value)
     {
-        return $this->where .= ' AND '.$column.' '.$operator.' '.$value;
+        $this->where .= " AND ".$column." ".$operator." ? ";
+        return $this->whereParam[] = $value;
     }
 
     public function whereByString($query)
     {
+        $params = explode(' ', $query);
         return $this->where .= ' AND '.$query;
+    }
+
+    public function limit($limit,$offset = 0)
+    {
+        $this->limit = $offset.",".$limit;
+
+        return $this;
     }
 
     public function selectBuilder() {
@@ -98,5 +109,7 @@ class MySqlQuery extends Query
         $this->query .= ($this->table) ? ' FROM '.$this->table : '';
 
         $this->query .= ($this->table) ? ' WHERE 1'.$this->where : '';
+
+        $this->query .= ($this->limit) ? ' LIMIT '.$this->limit : '';
     }
 }
