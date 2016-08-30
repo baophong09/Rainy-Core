@@ -97,10 +97,10 @@ class MySqlQuery extends Query
         $params = explode(' ', $query);
 
         if(count($params) != 3) {
-            throw new Exception("where require space to split column, operator and value")
+            throw new Exception("where require space to split column, operator and value");
         }
 
-        $this->where .= ' AND '.$params[0].' '.$params[1].' ? '.;
+        $this->where .= ' AND '.$params[0].' '.$params[1].' ? ';
         $this->whereParam[] = $params[2];
 
         return true;
@@ -118,22 +118,24 @@ class MySqlQuery extends Query
         $this->join .= ' '.$type.' '.$table;
 
         if($alias) {
-            $this->join .= ' as '.$alias
+            $this->join .= ' as '.$alias;
         }
 
         $this->join .= ' ON '.$columnOne.' '.$operator.' '.$columnTwo;
-
-        return $this;
     }
 
     public function innerJoin($table, $columnOne, $operator, $columnTwo, $alias = '')
     {
         $this->join('INNER JOIN', $table, $columnOne, $operator, $columnTwo, $alias);
+
+        return $this;
     }
 
-    public function leftJoin($table, $columnOne, $operator, $columnTwo, $alias)
+    public function leftJoin($table, $columnOne, $operator, $columnTwo, $alias = '')
     {
         $this->join('LEFT JOIN', $table, $columnOne, $operator, $columnTwo, $alias);
+
+        return $this;
     }
 
     public function selectBuilder() {
@@ -148,5 +150,7 @@ class MySqlQuery extends Query
         $this->query .= ($this->where) ? ' WHERE 1'.$this->where : '';
 
         $this->query .= ($this->limit) ? $this->limit : '';
+
+        \Rainy\Helper::debug($this->query);
     }
 }

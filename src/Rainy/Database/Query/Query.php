@@ -28,6 +28,7 @@ class Query
     }
 
     public function get() {
+
         if($this->isSelect) {
             $this->selectBuilder();
             $this->execute($this->query);
