@@ -2,6 +2,8 @@
 
 namespace Rainy\Database\Query;
 
+use \Exception as Exception;
+
 class MySqlQuery extends Query
 {
     protected $select;
@@ -85,20 +87,53 @@ class MySqlQuery extends Query
     public function whereByParams($column, $operator, $value)
     {
         $this->where .= " AND ".$column." ".$operator." ? ";
-        return $this->whereParam[] = $value;
+        $this->whereParam[] = $value;
+
+        return true;
     }
 
     public function whereByString($query)
     {
         $params = explode(' ', $query);
-        return $this->where .= ' AND '.$query;
+
+        if(count($params) != 3) {
+            throw new Exception("where require space to split column, operator and value")
+        }
+
+        $this->where .= ' AND '.$params[0].' '.$params[1].' ? '.;
+        $this->whereParam[] = $params[2];
+
+        return true;
     }
 
     public function limit($limit,$offset = 0)
     {
-        $this->limit = $offset.",".$limit;
+        $this->limit = ' LIMIT '.$offset.",".$limit;
 
         return $this;
+    }
+
+    public function join($type = 'INNER JOIN', $table, $columnOne, $operator, $columnTwo, $alias = '')
+    {
+        $this->join .= ' '.$type.' '.$table;
+
+        if($alias) {
+            $this->join .= ' as '.$alias
+        }
+
+        $this->join .= ' ON '.$columnOne.' '.$operator.' '.$columnTwo;
+
+        return $this;
+    }
+
+    public function innerJoin($table, $columnOne, $operator, $columnTwo, $alias = '')
+    {
+        $this->join('INNER JOIN', $table, $columnOne, $operator, $columnTwo, $alias);
+    }
+
+    public function leftJoin($table, $columnOne, $operator, $columnTwo, $alias)
+    {
+        $this->join('LEFT JOIN', $table, $columnOne, $operator, $columnTwo, $alias);
     }
 
     public function selectBuilder() {
@@ -108,8 +143,10 @@ class MySqlQuery extends Query
 
         $this->query .= ($this->table) ? ' FROM '.$this->table : '';
 
-        $this->query .= ($this->table) ? ' WHERE 1'.$this->where : '';
+        $this->query .= ($this->join) ? $this->join : '';
 
-        $this->query .= ($this->limit) ? ' LIMIT '.$this->limit : '';
+        $this->query .= ($this->where) ? ' WHERE 1'.$this->where : '';
+
+        $this->query .= ($this->limit) ? $this->limit : '';
     }
 }

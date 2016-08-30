@@ -22,8 +22,6 @@ class Query
     public function execute($query) {
         $this->stmt = $this->pdo->prepare($query);
 
-        //\Rainy\Helper::debug($this->stmt);
-
         $this->stmt->execute($this->whereParam);
 
         return $this;
