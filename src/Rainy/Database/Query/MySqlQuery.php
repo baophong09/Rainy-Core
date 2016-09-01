@@ -32,6 +32,10 @@ class MySqlQuery extends Query
 
     protected $whereParam;
 
+    protected $havingParam;
+
+    protected $params;
+
     public function table($table)
     {
         $this->table = $table;
@@ -138,6 +142,12 @@ class MySqlQuery extends Query
         return $this;
     }
 
+    public function having($column, $operator, $value)
+    {
+        $this->having = ' HAVING '.$column.' '.$operator.' ? ';
+        $this->havingParam[] = $value;
+    }
+
     public function selectBuilder() {
         $this->query = '';
 
@@ -150,7 +160,5 @@ class MySqlQuery extends Query
         $this->query .= ($this->where) ? ' WHERE 1'.$this->where : '';
 
         $this->query .= ($this->limit) ? $this->limit : '';
-
-        \Rainy\Helper::debug($this->query);
     }
 }
