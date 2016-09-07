@@ -6,14 +6,39 @@ use \Exception as Exception;
 
 class MySqlQuery extends Query
 {
+    /**
+     * Store select query
+     *
+     * @var String select
+     */
     protected $select;
 
+    /**
+     * Store where query
+     *
+     * @var String where
+     */
     protected $where;
 
+    /**
+     * Store join query
+     *
+     * @var String join
+     */
     protected $join;
 
+    /**
+     * Store having query
+     *
+     * @var String having
+     */
     protected $having;
 
+    /**
+     * Store or query
+     *
+     * @var String or
+     */
     protected $or;
 
     protected $insert;
